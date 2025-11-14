@@ -1,18 +1,23 @@
+from tabulate import tabulate
+
+
 def registrar_viagem(listaViagens):
+
+
     motorista=str(input("Nome do motorista: "))
     print("-------------------------------------------------")
     destino=str(input("Me diga seu destino: "))
-    distancia=int(input("Distância percorrida(em km): "))
+    distancia=float(input("Distância percorrida(em km): "))
     print("-------------------------------------------------")
-    valor=float(input("Valor gasto com combustível (em R$): "))
-    consumo= (valor/distancia)
+    combustivel=float(input("Valor gasto com combustível (em R$): "))
+    consumo= (combustivel/distancia)
 
     viagem={
         "motorista":motorista,
         "destino":destino,
         "distancia":distancia,
-        "valor":valor,
-        
+        "valor":combustivel,
+        "consumo":consumo
 
 
 
@@ -21,37 +26,65 @@ def registrar_viagem(listaViagens):
 
     }
 
-    consumomax={
-        "consumo":consumo
-}
+
+        
+
     
     listaViagens.append(viagem)
-    listaViagens.append(consumomax)
     print("Viagem registrada")
+    print("-------------------------------------------------")
+    
+    return
 
 
 def exibir_viagem(listaViagens):
-    print("VIAGENS:")
-    print("-------------------------------------------------")
-    print(listaViagens)
+    for viagem in listaViagens:
+        print("VIAGENS:")
+        print("-------------------------------------------------")
+        print(tabulate(listaViagens, headers="keys"))
+        return
 
 
 def buscar_motorista(listaViagens):
     buscarmoto=str(input("Que motorista você quer buscar?: "))
-    for viagem in listaViagens:
-        if viagem["motorista"].lower()==buscarmoto.lower():
-            print("Motorista encontrado, aqui está as viagens deste motosita:")
-            print(viagem)
-    if buscarmoto not in listaViagens:
-            print("Motorista não encontrado")
+    
+    encontrou= [m for m in listaViagens if m["motorista"].lower()==buscarmoto.lower()]
+    
+    if encontrou:
+        print("Motorista encontrado, aqui está as viagens deste motosita:")
+        print(tabulate(encontrou, headers="keys"))
+        print("-------------------------------------------------")
+
+    else:
+        print("Nenhum motorista com esse nome fi")
+        print("-------------------------------------------------")
+
+        return
 
 def viagem_mais_cara(listaViagens):
+    maiorgasto=listaViagens[0]["valor"]
+    for c in listaViagens:
+        if c["valor"]>maiorgasto:
+           maiorgasto=c["valor"]
+        maiscaro={
+        
+        "viagem":c["destino"],
+        "valor":maiorgasto 
+        }
 
-    for viagem in listaViagens:
-        consumomaximo=max(consumomax, key=consumomax.get)
-        print(consumomax)
+    
+        
+    print(tabulate([maiscaro], headers="keys"))
+        
+   
 
 def media_consumo(listaViagens):
-     for viagem in listaViagens:
-        print("Aqui está o consumo de cada viagem:")
-        print(viagem["consumo"])
+     print("Aqui está o consumo de cada viagem:")
+     for m in listaViagens:
+        
+        print(m["destino"])
+        print(m["consumo"])
+        print("-------------------------------------------------")
+
+
+        
